@@ -1,0 +1,19 @@
+{
+  "name": "@fabrico/prisma",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "prisma": "^6.5.0",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      String   @default("customer")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  bans      UserBan[]
+}
+
+model UserBan {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+  active    Boolean  @default(true)
+  reason    String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([userId, active])
+  @@map("user_bans")
+}
+
+model Seller {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  verified  Boolean  @default(false)
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("sellers")
+}
+
+model Dispute {
+  id        String   @id @default(cuid())
+  orderId   String   @unique @map("order_id")
+  customer  String
+  reason    String
+  status    String   @default("open")
+  amount    Int
+  refunded  Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("disputes")
+}
+
+model Order {
+  id         String   @id @default(cuid())
+  customerId String   @map("customer_id")
+  status     String   @default("pending")
+  total      Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("orders")
+}
