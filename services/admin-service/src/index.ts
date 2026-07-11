@@ -57,11 +57,6 @@ app.get('/ready', (_req, res) => {
   res.json({ status: 'ready', service: 'admin-service' });
 });
 
-// GET /admin/health — admin health check for gateway proxy
-app.get('/admin/health', (_req, res) => {
-  res.json({ status: 'ok', service: 'admin-service', admin: true });
-});
-
 // --------------------------------------------------
 // GET /admin/disputes — list disputed orders
 // --------------------------------------------------
@@ -123,28 +118,6 @@ app.post('/admin/users/:userId/ban', (req, res) => {
   bans.push(ban);
   console.log(`[Admin] User ${userId} banned. Reason: ${ban.reason}`);
   res.status(201).json({ success: true, ban });
-});
-
-// --------------------------------------------------
-// POST /admin/users/:userId/unban — unban a user
-// --------------------------------------------------
-app.post('/admin/users/:userId/unban', (req, res) => {
-  const { userId } = req.params;
-
-  const ban = bans.find((b) => b.user_id === userId && b.active);
-
-  if (!ban) {
-    return res.status(404).json({
-      error: 'NOT_BANNED',
-      message: `User ${userId} is not currently banned`,
-    });
-  }
-
-  ban.active = false;
-  ban.updated_at = new Date();
-
-  console.log(`[Admin] User ${userId} unbanned`);
-  res.json({ success: true, message: `User ${userId} has been unbanned` });
 });
 
 // --------------------------------------------------

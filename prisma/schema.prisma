@@ -19,14 +19,13 @@ model User {
 
 model UserBan {
   id        String   @id @default(cuid())
-  userId    String   @map("user_id")
+  userId    String   @unique @map("user_id")
   user      User     @relation(fields: [userId], references: [id])
   active    Boolean  @default(true)
   reason    String?
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@unique([userId, active])
   @@map("user_bans")
 }
 
