@@ -1,9 +1,13 @@
 import express from 'express';
 import { config } from './config';
+import { createAdminRoutes } from './routes/admin';
 
 const app = express();
 
 app.use(express.json());
+
+// Mount admin routes at /v1/admin
+app.use('/v1/admin', createAdminRoutes());
 
 // Health check for the gateway itself
 app.get('/health', (_req, res) => {
