@@ -1,4 +1,5 @@
 export const services = {
+  admin: process.env.ADMIN_SERVICE_URL || 'http://localhost:3006',
   catalog: process.env.CATALOG_SERVICE_URL || 'http://localhost:3001',
   identity: process.env.IDENTITY_SERVICE_URL || 'http://localhost:3002',
   order: process.env.ORDER_SERVICE_URL || 'http://localhost:3003',
